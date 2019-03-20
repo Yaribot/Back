@@ -1,0 +1,124 @@
+-- Connexion à la BDD --
+mysql -u root -p
+
+-- Afficher les BDD (Bases De Données) --
+SHOW DATABASES;
+
+-- Création d'une BDD --
+CREATE DATABASE nom_de_la_BDD;
+
+-- Sélectionner une BDD --
+USE nom_de_la_BDD;
+
+-- Création d'une TABLE dans la BDD --
+-- Type de donnée (INT, VARCHAR (255 max), TEXT, FLOAT...) --
+CREATE TABLE fruit  (id_fruit INT(3), nom VARCHAR(60), origine VARCHAR(50), calibre INT(1), prix FLOAT, catégorie VARCHAR(20));
+
+-- AFFICHER toutes les tables --
+SHOW TABLES;
+
+-- Insertioon dans une BDD --
+INSERT INTO nom_de_la_TABLE (id_fruit, nom, origine, calibre, prix, catégorie) VALUES ('1', 'pomme', 'France', '5', '12.50', 'golden');
+
+-- Sélectionner toutes les données d'une table --
+SELECET  * FROM nom_de_la_TABLE;
+
+-- Sélectionner les données d'une ou plusieurs colonnes spécifique d'une table --
+SELECT nom_de_lacolonne, nom_de_lacolonne FROM nom_de_la_TABLE;
+
+-- Supprimer une ligne de la table avec une condition --
+DELETE FROM nom_de_la_TABLE WHERE nom_de_lacolonne = 'valeur_de_lacolonne';
+
+-- Modifier une ligne de la table avec une condition --
+UPDATE nom_de_la_TABLE SET nom_de_lacolonne_à modifier = 'nouvelle_valeur_de_lacolonne' WHERE nom_de_lacolonne = 'valeur_de_lacolonn';
+
+-- Modifier les nom d'une colonne --
+ALTER TABLE nom_de_TABLE CHANGE ancien_non_colonne nouveau_nom colonne VARCHAR(60)
+
+-- Mettre à jour plusieurs colonnes d'une table --
+UPDATE nom_de_la_TABLE SET nom_de_lacolonne_à modifier = 'nouvelle_valeur_de_lacolonne',nom_de_lacolonne_à modifier = 'nouvelle_valeur_de_lacolonne' WHERE nom_de_lacolonne = 'valeur_de_lacolonne';
+
+-- Ajouter une colonne à une table --
+ALTER TABLE nom_de_la_TABLE ADD nom_de_la_nouvelle_colonne VARCHAR(50);
+
+-- Opérateur de comparaison --
+
+= Egale
+<> pas égale
+!= Pas égale
+> Supérieur
+< Inférieur
+>= Spérieur ou égale à 
+<= Inférieur ou égale à 
+IN Liste de plusieurs valeurs possible
+BETWEEN recherche des valeurs comprise dans un interval donnée (utile pour les nombres ou dates)
+LIKE recherche en spécifiant le début, le milieu ou la fin d'un mot
+IS NULL  valeur est null
+IS NOT NULL valeur n'est pas nulle
+
+-- Selctionner des données entre (BETWEEN) un interval (fonctionne dans une reqête utilisant WHERE) --
+SELECT * FROM nom_de_la_TABLE WHERE nom_de_lacolonne BETWEEN valeur_de_lacolonne AND valeur_de_lacolonne;
+
+-- Selctionner des données qui ne sont PAS comprisent entre (NOT BETWEEN) un interval (fonctionne dans une reqête utilisant WHERE) --
+SELECT * FROM nom_de_la_TABLE WHERE nom_de_lacolonne NOT BETWEEN valeur_de_lacolonne AND valeur_de_lacolonne; (pour exclure des valeurs d'une colonne);
+
+-- Afficher les données par rapport à une valeur --
+SELECT * FROM nom_de_la_TABLE WHERE nom_de_lacolonne = 'valeur';
+
+-- Afficher les données par ordre définit -- 
+SELECT * FROM nom_de_la_TABLE ORDER BY nom_de_lacolonne;
+
+-- Afficher les dobnnées par ordre décroissant --
+SELECT * FROM nom_de_la_TABLE ORDER BY nom_de_lacolonne DESC;
+
+-- Afficher les doonées par qui commence par une valeur spécifique --
+SELECT * FROM nom_de_la_TABLE WHERE nom_de_lacolonne LIKE 'valeur%';
+
+-- Afficher les doonées par qui finisse par une valeur spécifique --
+SELECT * FROM nom_de_la_TABLE WHERE nom_de_lacolonne LIKE '%valeur';
+
+-- Afficher les doonées par qui contiennent une valeur spécifique --
+SELECT * FROM nom_de_la_TABLE WHERE nom_de_lacolonne LIKE '%valeur%';
+
+-- Afficher un nonbre limité de données --
+SELECT * FROM nom_de_la_TABLE LIMIT nombre de données affiché;
+
+-- Afficher un nonbre limité de données en sautant des lignes --
+SELECT * FROM nom_de_la_TABLE LIMIT saut de ligne (offset), nombre de données affiché;
+
+
+-- Exercice: Créé une base de données magasin
+
+-- Créé une table produit qui contient les colonnes suivantes:
+
+-- id -> INT PRIMARY KEY AUTO_INCREMENT NOT NULL
+
+-- nom_produit -> débrouillez-vous
+
+-- catégorie_produit -> débrouillez-vous
+
+-- reference_produit -> débrouillez-vous
+
+-- prix_produit -> débrouillez-vous
+
+-- stock_produit -> débrouillez-vous
+
+-- date_ajout -> débrouillez-vous
+
+-- Insérer au moins 20 produits
+
+-- Afficher tous les produits classé du plus récent au plus ancien
+
+-- Afficher les 10 premiers produits
+
+-- Afficher les 10 derniers produits
+
+-- Ajouter une colonne date_vente
+
+-- Afficher les produits entre 2 date de vente
+
+-- Afficher les 10 derniers produits
+
+-- Afficher les 10 produits du milieu
+
+-- Afficher les produits commencent par une lettre spécifique
