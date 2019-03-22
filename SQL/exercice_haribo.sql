@@ -108,26 +108,28 @@ SELECT COUNT(id_stagiaire) nb_stagiaires_H FROM stagiaires WHERE genre = 'h';
 
 --33-- Compter le nombre de couleurs d'yeux différentes
 SELECT COUNT(yeux), yeux FROM stagiaires GROUP BY yeux;
-
+SELECT COUNT(DISTINCT yeux) FROM stagiaires;
+SELECT COUNT(DISTINCT yeux) FROM stagiaires ORDER BY yeux;
 
 --34-- Afficher le prénom et les yeux du stagiaire qui a l'id le plus petit
 SELECT yeux, prenom FROM stagiaires WHERE id_stagiaire < 2;
-
+SELECT MIN(id_stagiaire), prenom FROM stagiaires;
 
 --36-- Afficher le prénom et les yeux du stagiaire qui a l'id le plus grand /!\ c'est une requête imbriquée qu'il faut faire (requête sur le résultat d'une autre requête)
 SELECT MAX(id_stagiaire), yeux, prenom  FROM stagiaires;
-
+SELECT prenom, yeux FROM stagiaires WHERE id_stagiaire = (SELECT MAX(id_stagiaire) FROM stagiaires);
 
 --37-- Afficher les stagiaires qui ont les yeux bleu et vert
 SELECT * FROM stagiaires WHERE yeux IN ('bleu', 'vert');
-
+SELECT prenom FROM stagiaires WHERE yeux = 'bleu' OR yeux = 'vert';
 
 --38-- A l'inverse maintenant, afficher les stagiaires qui n'ont pas les yeux bleu ni vert
 SELECT * FROM stagiaires WHERE yeux != 'bleu' AND yeux != 'vert';
-
+SELECT prenom, yeux FROM stagiaires WHERE yeux NOT IN ('vert', 'bleu');
 
 --39-- récupérer tous les stagiaires qui ont mangé des bonbons, avec le détail de leurs consommations
-SELECT * FROM manger;
+SELECT * FROM nom, prenom, quantite FROM manger INNER JOIN stagiaires ON stagiaires.id_stagiaire = manger.idstagiaire INNER JOIN bonbons ON manger.id_bonbon = bonbons.id_bonbon;
+SELECT nom, prenom, quantite FROM manger AS m, bonbons AS b , stagiaires AS s WHERE s.id_stagiaire = m.id_stagiaire AND  b.id_bonbon = m.id_bonbon;
 
 
 --40-- récupérer que les stagiaires qui ont mangé des bonbons, avec le détail de leurs consommations
@@ -135,35 +137,37 @@ SELECT prenom, nom, date_manger  FROM stagiaires AS s INNER JOIN bonbons AS b IN
 
 
 --41-- prénom du stagiaire, le nom du bonbon, la date de consommation pour tous les stagiaires qui ont mangé au moins une fois
-
+SELECT prenom, nom, date_manger FROM stagiaires AS s, manger AS m, bonbons AS b WHERE s.id_stagiaire = m.id_stagiaire AND b.id_bonbon = m.id_bonbon;
 
 
 --42-- Afficher les quantités consommées par les stagiaires (uniquement ceux qui ont mangé !)
-SELECT prenom, nom, quantite FROM stagiaires AS s INNER JOIN bonbons AS b INNER JOIN manger AS m WHERE s.id_stagiaire = m.id_stagiaire AND b.id_bonbon = m.id_bonbon;
+SELECT prenom, nom, quantite FROM stagiaires AS s, bonbons AS b, manger AS m WHERE s.id_stagiaire = m.id_stagiaire AND b.id_bonbon = m.id_bonbon AND quantite > 0;
 
 
 --43-- Calculer combien de bonbons ont été mangés au total par chaque stagiaire et afficher le nombre de fois où ils ont mangé
-
+SELECT m.quantite, COUNT(*) AS nb_conso, s.prenom FROM manger m INNER JOIN stagiaires s ON m.id_stagiaire = s.id_stagiaire GROUP BY s.prenom;
 
 
 --44-- Afficher combien de bonbons ont été consommés au total
-
+SELECT SUM(quantite) FROM manger;
 
 
 --45-- Afficher le total de *Tagada* consommées
+SELECT SUM(quantite) FROM stagiaires s, bonbons b, manger m WHERE m.id_bonbon = b.id_bonbon AND m.id_stagiaire = s.id_stagiaire AND nom = 'tagada';
 
 
 
 --46-- Afficher les prénoms des stagiaires qui n'ont rien mangé
-
+SELECT prenom FROM stagiaires s, bonbons b, manger m WHERE m.id_bonbon = b.id_bonbon AND m.id_stagiaire = s.id_stagiaire AND quantite < 1;
 
 
 --47-- Afficher les saveurs des bonbons (sans doublons)
-
+SELECT DISTINCT saveur FROM bonbons; 
 
 
 --48-- Afficher le prénom du stagiaire qui a mangé le plus de bonbons
-
-
+SELECT prenom, MAX(quantite) FROM stagiaires s, bonbons b, manger m WHERE m.id_bonbon = b.id_bonbon AND m.id_stagiaire = s.id_stagiaire;
+SELECT s.prenom FROM stagiaires s LEFT JOIN manger m ON s.id_stagiaire = m.id_stagiaire WHERE m.quantite = (SELECT MAX(quantite) FROM manger);
 
 --49-- Aller chercher 1 référence dans 2 tables distinctes
+SELECT prenom, quantite FROM stagiaires s, manger m WHERE m.id_stagiaire = s.id_stagiaire;

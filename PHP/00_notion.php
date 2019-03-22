@@ -16,7 +16,7 @@ echo '<h2>  --- Les balises PHP --- </h2>';
 
 <?php
 
-// Pour ouvrire un passage en PHP on utilise la balise précédente.
+// Pour ouvrir un passage en PHP on utilise la balise précédente.
 
 // Pour fermer un passage en PHP, on utilise la balise suivante.
 
@@ -106,7 +106,7 @@ echo $x . $y . '<br>'; // le point de concaténation peut être traduit par 'sui
 
 // Remarque sur echo : 
 
-echo $x, $y, '<br>'; //Dans l'instruction echo, on peut séparer les élémznt affiché par une virgule. Cette syntaxe est spécifique au echo et ne marche pas avec print.
+echo $x, $y, '<br>'; //Dans l'instruction echo, on peut séparer les élément affiché par une virgule. Cette syntaxe est spécifique au echo et ne marche pas avec print.
 
 //-------
 
