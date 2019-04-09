@@ -1035,7 +1035,33 @@
         */
         echo '<pre>'; print_r($_SERVER); echo '</pre>';
 
+        echo '<hr> <h2 class="display-4 text-center">Classe et objet</h2><hr>';
+        // Un objet est un autre type de données. Un peu à la manière d'un ARRAY, il permet de regrouper des informations.
+        //Cependant, cela va beaucoup plus loin car on peux y déclarer des variables (appelée : attribut ou propriété) mais aussi des fonctions (appelée: méthodes).
 
+        // une classs est un peu comme un point de construction, qui regroupe des données
+        // Par convention, la première lettre du nom de la classe est toujours en majuscule
+        class Etudiant
+        {
+            public $prenom = 'Yannis'; // public permet de préciser que l'élément sera accessible de partout (il y a aussi protected et private)
+            public $age = 27;
+            public function pays()
+            {
+                return 'France';
+            }
+        }
+        
+        $objet = new Etudiant; // new permet d'instancier la class Etudiant et d'en faire un objet. $objet est un exemplaire de la classe Etudiant, c'est un enfant de la clesse
+        // Pour exploiter les données déclarées dans la classe, il faut créer une instance / un objet de la classe
+        echo '<pre>'; var_dump($objet); echo '</pre>'; // var_dump permet d'observer que l'on a bien un objet issu de la classe Etudiant à l'identifiant 1 et on observe aussi les propriétés (variables) déclarées dans la classe
+        echo '<pre>'; var_dump(get_class_methods($objet)); echo '</pre>'; //get_classe_methods() permet d'afficher toutes les  méthodes (fonctions) issu de la classe Etudiant
+
+        // On pioche dans un ARRAY avec les crochets '[]' / on pioche dans un objet avec une flèche '->'
+        echo "Je m'appel " . $objet->prenom . '<hr>';// En piochant dans l'objet, cela nous permet d'atteindre la propriété $prenom déclarée dans la classe 
+        echo "J'ai " . $objet->age . ' ans<hr>';
+        echo "J'habite en " . $objet->pays() . '<hr>';
+
+        
         ?>
     </div>
 

@@ -6,26 +6,51 @@
     echo'<pre>';var_dump($tab_poids);'</pre>';
 
     require_once("fonction.php");
-
-    echo calcul($tab_fruit[0], $tab_poids[1]) . '<hr>';
+ 
+    echo '<hr>' . calcul($tab_fruit[0], $tab_poids[1]) . '<hr>';
 
     echo'<br>' . '<br>';
-
+    echo'<div class="col-md-6 offset-md-3 mx-auto alert alert-info text-center">';
     foreach($tab_poids as $key => $value)
     {
-        echo calcul($tab_fruit[0], $value) . '<hr>';
+        echo '<hr>' . calcul($tab_fruit[0], $value) . '<hr>';
     }
+    echo'</div>';
+
     echo'<br>' . '<br>';
 
-    echo '<table class="table-bordered text-center"><tr>';
+    
+    foreach($tab_fruit as $key1 => $value1)
+    {
+        echo'<div class="col-md-6 offset-md-3 mx-auto alert alert-success text-center">';
+        foreach($tab_poids as $key => $value)
+        {
+            echo '<hr>' . calcul($value1, $value) . '<hr>';
+        }
+        echo'</div><hr>';
+    }
+    
+
+    echo '<table class="table table-bordered text-center"><tr>';
+    echo '<th>Poids</th>';
+    foreach($tab_fruit as $key => $value1)
+    {
+        echo "<th>$value1</th>";
+    }
+    echo '</tr>';
+    foreach($tab_poids as $key => $value)
+    {
+        echo '<tr>'; 
+        echo "<th>$value g</th>";
         foreach($tab_fruit as $key1 => $value1)
         {
-            foreach($tab_poids as $key => $value)
-            {
-                echo calcul($value1, $value) . '<hr>';
-            }
+            echo "<td>" . calcul($value1, $value) . "</td>";
         }
-    echo '</tr></table><hr>';
+        echo '</tr>';
+    }
+    echo '</table>';
+
+    
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -49,5 +74,6 @@
 	7- Faire un affichage dans une table HTML pour une présentation plus sympa.
      -->
      
+    
 </body>
 </html>
