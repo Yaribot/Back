@@ -31,30 +31,36 @@
         <?php 
         $bdd = new PDO('mysql:host=localhost;dbname=tchat', 'root','', array(PDO::ATTR_ERRMODE => PDO::ERRMODE_WARNING, PDO::MYSQL_ATTR_INIT_COMMAND =>'SET NAMES utf8'));
 
+        foreach($_POST as $key =>$value)
+            {
+                $_POST[$key] = strip_tags(trim($value));
+                // on passe en revue le formulaire en executant la fonction strip_tag sur chaque valeur saisie dans le formulaire
+                //trim est une fonction prédéfinie qui supprime les espaces en début et fin de chaine
+            }
+
         echo '<pre>'; var_dump($_POST); echo '</pre>';
 
         if($_POST)
         {
-            foreach($_Post as $key =>$value)
-            {
-                $_POST[$key] = strip_tag($value);
-                // on passe en revue le formulaire en executant la fonction strip_tag sur chaque valeur saisie dans le formulaire
-            }
+            
             extract($_POST);
             // $req = "INSERT INTO commentaire (pseudo, dataEnregistrement,message) VALUES ('$_POST[pseudo]', NOW(), '$_POST[message]')"
 
-            // $resultat = $bdd->exec($req);
+
+            $req = "INSERT INTO commentaire (pseudo, dataEnregistrement, message) VALUES (:pseudo, NOW(), :message)";
+
+            $resultat = $bdd->prepare($req);
 
             // echo "nombre d'enregistrement : $resultat<br>";
 
             // echo $req;
-            // $req = "INSERT INTO commentaire (pseudo, dataEnregistrement, message) VALUES (:pseudo, NOW(), :message)";
-            $resultat = $bdd->prepare("INSERT INTO commentaire (pseudo, dataEnregistrement, message) VALUES (:pseudo, NOW(), :message)");
+            
+            // $resultat = $bdd->prepare("INSERT INTO commentaire (pseudo, dataEnregistrement, message) VALUES (:pseudo, NOW(), :message)");
             $resultat->bindValue(':pseudo', $pseudo, PDO::PARAM_STR);
             $resultat->bindValue(':message', $message, PDO::PARAM_STR);
             $resultat->execute();
 
-            // echo $req;
+            echo $req;
 
             /* 
                 INJECTION SQL : 
