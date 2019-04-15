@@ -27,13 +27,27 @@
     <div class="container">
 
       <h1 class="display-4 text-center">EXO CARRE</h1>
+      <?php
+      if(!=($_GET){
+      ?>
       <div class="row">
             <div class="col-md-12">
                 <div id="carre"></div>
                 <button type="button" class="btn btn-primary" class="col-md-6">Chage la couleur</button>
             </div>
       </div>
-  
+      <?php
+        } else {
+        ?>
+      <div class="row">
+            <div class="col-md-12">
+                <div id="carre1"></div>
+                <button type="button" class="btn btn-primary" class="col-md-6">Chage la couleur</button>
+            </div>
+      </div>
+        <?php 
+        }
+        ?>
     </div>  
 
 

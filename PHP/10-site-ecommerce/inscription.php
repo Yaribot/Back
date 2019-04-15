@@ -5,7 +5,10 @@ extract($_POST); // $_POST['pseudo'] --> $pseudo
 
 // echo '<pre>'; print_r($_POST); echo '</pre>';
 
-
+if(internauteEstConnecte()) // Si l'internaute est connecté, il n'a rien à faire sur la page connexion, on le redirige vers page profil
+{
+    header("Location: profil.php");
+}
 
 // EXO 3
 if($_POST)
@@ -26,6 +29,7 @@ if($_POST)
 
     if(!$error)
     {
+        // $_POST['mdp'] = password_hash($_POST['mdp'], PASSWORD_DEFAULT); // on ne conserve jamais en clair les mots de passe dans la BDD, password_hash permet de créer une clé de hashage
         $data_insert = $bdd->prepare("INSERT INTO membre(pseudo, mdp, nom, prenom, email, civilite, ville, code_postal, adresse) VALUES (:pseudo, :mdp, :nom, :prenom, :email, :civilite, :ville, :code_postal, :adresse)");
         foreach($_POST as $key => $value)
         {

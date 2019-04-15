@@ -8,7 +8,7 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
-    <link rel="stylesheet" href="include/css/style.css">
+    <link rel="stylesheet" href="<?= URL ?>include/css/style.css">
 
     <title>Bienvenue dans ma boutique, wesh !!</title>
   </head>
@@ -21,26 +21,50 @@
 
   <div class="collapse navbar-collapse" id="navbarsExample04">
     <ul class="navbar-nav mr-auto">
+
+    <?php if(internauteEstConnecte()): // accès membre conecté non ADMIN ?>
+
       <li class="nav-item active">
-        <a class="nav-link" href="#">Home</a>
+        <a class="nav-link" href="<?= URL ?>boutique.php">Boutique</a>
       </li>
-      <li class="nav-item">
-        <a class="nav-link" href="connexion.php">Connexion</a>
+      <li class="nav-item active">
+        <a class="nav-link" href="<?= URL ?>profil.php">Profil</a>
       </li>
-      <li class="nav-item">
-        <a class="nav-link" href="inscription.php">Inscription</a>
+      <li class="nav-item active">
+        <a class="nav-link" href="<?= URL ?>panier.php">Panier</a>
       </li>
-      <li class="nav-item">
-        <a class="nav-link" href="profil.php">Profil</a>
+      <li class="nav-item active">
+        <a class="nav-link" href="<?= URL ?>connexion.php?action=deconnexion">Déconnexion</a>
       </li>
+     
+    <?php else: // accès visiteur non connecté ?>
+
+      <li class="nav-item active">
+        <a class="nav-link" href="<?= URL ?>boutique.php">Boutique</a>
+      </li>
+      <li class="nav-item active">
+        <a class="nav-link" href="<?= URL ?>inscription.php">Inscription</a>
+      </li>
+      <li class="nav-item active">
+        <a class="nav-link" href="<?= URL ?>connexion.php">Connexion</a>
+      </li>
+      <li class="nav-item active">
+        <a class="nav-link" href="<?= URL ?>panier.php">Panier</a>
+      </li>
+
+    <?php endif; ?>
+
+    <?php if(internauteEstConnecteEtEstAdmin()): ?>
+
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="dropdown04" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">BACK-OFFICE</a>
         <div class="dropdown-menu" aria-labelledby="dropdown04">
-          <a class="dropdown-item" href="#">Action</a>
-          <a class="dropdown-item" href="#">Another action</a>
-          <a class="dropdown-item" href="#">Something else here</a>
+          <a class="dropdown-item" href="<?= URL ?>admin/gestion_boutique.php">Gestion Boutique</a>
+          <a class="dropdown-item" href="<?= URL ?>admin/gestion_commande.php">Gestion Commande</a>
+          <a class="dropdown-item" href="<?= URL ?>admin/gestion_membre.php">Gestion Membre</a>
         </div>
       </li>
+    <?php endif; ?>
     </ul>
     <form class="form-inline my-2 my-md-0">
       <input class="form-control" type="text" placeholder="Search">
