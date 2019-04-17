@@ -55,10 +55,18 @@ if($_POST)
     if(isset($_GET['action']) && $_GET['action'] == 'ajout')
     {
         $data_insert = $bdd->prepare("INSERT INTO produit(reference, categorie, titre, description, couleur, taille, public, photo, prix, stock) VALUES (:reference, :categorie, :titre, :description, :couleur, :taille, :public, :photo, :prix, :stock)");
+
+        $_GET['action'] = 'affichage';
+
+        $validate .= "<div class='alert alert-success col-md-6 offset-md-3 text-center'>Le produit n° <strong>$reference</strong> a bien été ajouté !!</div>";
     }
     else
     {
-        $data_insert = $bdd->prepare("UPDATE produit SET ")
+        $data_insert = $bdd->prepare("UPDATE produit SET  reference = :reference, categorie = :categorie, titre = :titre, description = :description, couleur = :couleur, taille = :taille, public = :public, photo = :photo, prix = :prix, stock = :stock WHERE id_produit =  $id_produit");
+
+        $_GET['action'] = 'affichage';
+
+        $validate .= "<div class='alert alert-success col-md-6 offset-md-3 text-center'>Le produit n° <strong>$id_produit</strong> a bien été modifié !!</div>";
     }
 
 
@@ -109,7 +117,7 @@ $produit = $result_photo->fetchAll(PDO::FETCH_ASSOC);
 
     <?=$validate ?>
 
-    <table class="col-md-6 mx-auto table table-dark text-center"><tr>
+    <table class="col-md-6 mx-auto table table-dark text-center formulaire"><tr>
         <?php foreach($produit[0] as $indice => $value):?>
 
         
@@ -139,7 +147,7 @@ $produit = $result_photo->fetchAll(PDO::FETCH_ASSOC);
 
 <?php endif; ?>
 
-<h1 class="display-4 text-center"><?=strtoupper($action) ?> D'UN PRODUIT</h1><hr>
+
 
 
 <?php 
@@ -174,7 +182,9 @@ $stock = (isset($produit_actuel['stock'])) ? $produit_actuel ['stock'] : '';
  
 <?php if(isset($_GET['action']) && ($_GET['action'] == 'ajout' || $_GET['action'] == 'modification')): ?>
 
-    <form class="col-md-6 offset-md-3 form1" method="post" action="" enctype="multipart/form-data">
+    <h1 class="display-4 text-center"><?=strtoupper($action) ?> D'UN PRODUIT</h1><hr>
+
+    <form class="col-md-6 offset-md-3" method="post" action="" enctype="multipart/form-data">
         <div class="form-row">
             <div class="form-group col-md-12">
                 <label for="exampleInputEmail1">Référence</label>
@@ -229,7 +239,7 @@ $stock = (isset($produit_actuel['stock'])) ? $produit_actuel ['stock'] : '';
                 <em>Vous pouvez uploader une nouvelle photo si vous souhaitez la changer</em><br>
                 <img src="<?= $photo ?>" alt="<?= $titre ?>" class="card-img-top">
             <?php endif ?>
-            <input type="hidden" id="photo_actuelle" name="photo_actuelle" value="<? $photo ?>">
+            <input type="hidden" id="photo_actuelle" name="photo_actuelle" value="<?= $photo ?>">
 
             <div class="form-group">
                 <label for="exampleFormControlFile1">Photo</label>
