@@ -2,12 +2,25 @@
 <?php 
 echo '<pre>'; print_r($_POST); echo '</pre>';
 
-foreach($_POST as $key => $value)
+
+if($_POST)
 {
-    echo "$key : $value <br>";
+
+
+    foreach($_POST as $key => $value)
+    {
+        echo "$key : $value <br>";
+    }
+
+
+
+
+    if(iconv_strlen($_POST['nom']) < 3 || iconv_strlen($_POST['nom']) > 10)
+    {
+        echo'<div class = "col-md4 offset-md-4 alert alert-danger text-center text-dark">Le pseudo doit contenir entre 3 et 10 caractères !! </div>';
+    }
+
 }
-
-
 ?>
 
 
@@ -28,7 +41,7 @@ foreach($_POST as $key => $value)
   <body>
     <h1 class="dislplay-4 text-center mt-4">FORMULAIRE</h1><hr><br>
 <div class="container">
-    <form class="col-md-8 offset-md-2" method="post" action="formulaire_reception.php">
+    <form class="col-md-8 offset-md-2" method="post">    <!--action="formulaire_reception.php" pour envoyer les données sur une autre page-->
         <div class="row">
             <div class="form-group col-md-6">
                 <label for="exampleInputEmail1">Nom</label>
