@@ -1,0 +1,41 @@
+*{
+    box-sizing: border-box;
+}
+.img_header{
+    height:50rem;
+    width:100%;
+}
+
+.img_header2{
+    height:20rem;
+    width:100%;
+}
+
+.nav1{
+    background-color: rgba(255,255,255,0);
+    z-index: 1;
+}
+.nav2{
+    background-color: #75c9c8;
+}
+
+#carousel_page2{
+    margin-top: 1rem;
+}
+
+.card{
+    margin-top: 2rem;
+    margin-left: 2rem;
+}
+.card-img-top{
+   height:15rem;
+    width:100%; 
+}
+
+#btn_info{
+    margin-top: 3rem;
+}
+footer{
+    background-color: #75c9c8;
+    margin-top: 3rem;
+}

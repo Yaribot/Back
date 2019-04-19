@@ -15,10 +15,10 @@
 <?php 
 
 $bdd = new PDO('mysql:host=localhost;dbname=repertoire', 'root','', array(PDO::ATTR_ERRMODE => PDO::ERRMODE_WARNING, PDO::MYSQL_ATTR_INIT_COMMAND =>'SET NAMES utf8'));
-
+extract($_POST);
 if($_POST)
 {
-    extract($_POST);
+    
     
     $resultat = $bdd->prepare("INSERT INTO annuaire (nom, prenom, telephone, adresse, date_de_naissance, sexe, ville, codepostal, description ) VALUES (:nom, :prenom, :telephone, :adresse, :date_de_naissance, :sexe, :ville, :codepostal, :description)");
 
