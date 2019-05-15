@@ -20,8 +20,9 @@
 <body>
     <div class="container">
         <h1 class="display-4 text-center">Supprimer un employé</h1><hr><br>
+        <div id="message"></div> <!-- cette div réceptionne le message de validation après la suppression -->
         <form method="post" action="" class="col-md-6 offset-md-3 text-center">
-            <div id="employes">
+            <div id="employes"> <!-- cette div sert à remplacer un selecteur initial par un selecteur mis à jour, c'est à dire sans l'employé supprimé et tout ça en instantané -->
                 <?php 
                 // réaliser un selecteur avec tout les nom des employés
 
