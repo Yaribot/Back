@@ -6,7 +6,7 @@ $(document).ready(function (){
     });
     function ajax()
     {
-        var id = $('#personne').text();
+        var id = $('#personne').val();
         console.log(id);
 
         var parameters = "id=" + id;
@@ -14,7 +14,7 @@ $(document).ready(function (){
 
         $.post("ajax5.php", parameters, function (data)
         {
-            $('#employes').html(data.resultat);
+            // $('#employes').html(data.resultat);
             $('#resultat').html(data.resultat);
 
         }, 'json');

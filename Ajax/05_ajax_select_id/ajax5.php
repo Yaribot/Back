@@ -1,21 +1,33 @@
-<?php
+    <?php
 
 
-require_once('init.php');
-extract($_POST);
-$tab = array();
+    require_once('init.php');
+    extract($_POST);
+    $tab = array();
 
+// -------------- REQUETE DE SELECTEUR (aller)
 
-$result = $bdd->query("SELECT * FROM employes WHERE id_employes = 509");
+$result = $bdd->query("SELECT * FROM employes WHERE id_employes = $id");
 
-
-$tab['resultat'] = '<table class="table table-dark text-center"><tr>'
+// ------------- DECLARATION TABLEAU (retour)
+$tab['resultat'] = '<table class="table table-dark text-center"><tr>';
 for($i = 0; $i < $result->columnCount(); $i++)
 {
     $colonne = $result->getColumnMeta($i);
-    $tab['resultat'] .= "<th>$colonne['name']</th>";
+    $tab['resultat'] .= "<th>$colonne[name]</th>";
 }
 $tab['resultat'] .= '</tr>';
+
+// réaliser le traitement PHP permettant d'afficher les données de l'employé 509
+
+$employes = $result->fetch(PDO::FETCH_ASSOC);
+// echo '<pre>'; print_r($employes); echo '</pre>';
+foreach($employes as $value)
+{
+    $tab['resultat'] .="<td>$value</td>";
+}
+
+
 $tab['resultat'] .= '</table>';
 
 // require_once('init.php');
