@@ -36,7 +36,7 @@ $maison = new Maison;
 
 echo "Nombre de pièce de la maison : <strong>" . Maison::getNbPiece() . "</strong><hr><br>";
 echo "Leterrain de la maison fait : <strong>" . Maison::$espaceTerrain . "</strong><hr><br>";
-echo "la hauteur de la maison est de : <strong>" . Maison::hauteur() . "</strong><hr><br>";
+echo "la hauteur de la maison est de : <strong>" . Maison::HAUTEUR . "</strong><hr><br>";
 echo "la couleur de la maison est  : <strong>" . $maison->couleur . "</strong><hr><br>";
 echo "la couleur de la maison est  : <strong>" . $maison->getNbPorte() . "</strong><hr><br>";
 
@@ -51,3 +51,13 @@ echo $maison::$espaceTerrain . '<hr>'; //!\\ devrait donner une erreur, on ne do
 //  2 - afficher la couleur la maison 
 
 //  2 - afficher le nombre de porte de la maison 
+
+
+// echo $maison->espaceTerrain . '<hr>'; //!\\ erreur !! il n'est pas possible d'accéder à une propriété static via l'objet !
+
+
+// echo $maison->getNbPiece() . '<hr>';  //!\\ fonctionne mais ce n'est pas logique !!! 
+// bonne écriture : Maison::getNbPiece()
+
+
+// echo Maison:: $couleur; //!\\ erreur !! il n'est pas possible d'accéder à une propriété public par la class !
