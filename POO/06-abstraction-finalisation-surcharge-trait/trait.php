@@ -26,7 +26,7 @@ class Site
 // Et faire les différents affichages méthodes déclarées
 
 $site = new Site;
-echo '<pre>';print_r(get_class_methods($site));'</pre>';
+echo '<pre>';print_r(get_class_methods($site)); echo'</pre>';
 echo $site->affichageProduit() . "<hr>";
 echo $site->affichageMembre() . "<hr>";
 echo "Nombre de produit dans le panier : " . $site->nbProduit;

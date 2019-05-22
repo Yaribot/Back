@@ -3,7 +3,7 @@ class Singleton
 {
     public $numero = 20;
     private static $instance = null;
-    private function __construct(){} // la class n'est pas instanciable car ke constructeur est privé
+    private function __construct(){} // la class n'est pas instanciable car le constructeur est privé
     private function __clone(){} // l'objet ne sera pas clonnable
     public function getInstance()
     {
