@@ -41,6 +41,23 @@ class EntityRepository
 
        $r = $q->fetchAll(\PDO::FETCH_ASSOC);
        return $r;
+      
+   }
+
+   public function getFields() // methode permettant de récupérer le nom des champs / colonne des la table 'employes'
+   {
+       $q = $this->getDb()->query("DESC " . $this->table); // DESC : description de la table 
+       $r= $q->fetchAll(\PDO::FETCH_ASSOC);
+        return array_splice($r, 1); // permet de retirer le premier champs idEmploye dans le formulaire 
+   }
+   public function save()
+   {
+       $id = isset($_GET['id']) ? $_GET['id'] : 'NULL';
+
+       $q = $this->getDB()->query('REPLACE INTO ' . $this->table . '(id' . ucfirst($this->table) . ',' . implode(',', array_keys($_POST)) . ') VALUES (' . $id . ',' . "'" . implode("','", $_POST) . "'" . ')');
+    // $this->table : retourne la table 'employe'
+    // id . ucfirst($this->table) : idEmploye
+    // ',', array_keys($_POST)) : permet d'extraire chaque indice formulaire afin de les accoler vomme nom de champs 
    }
 }
 
