@@ -19,7 +19,7 @@ class EntityRepository
                 try
                 {
                     $this->db = new \PDO("mysql:dbname=" . $xml->db .";host=" . $xml->host, $xml->user, $xml->password, array(\PDO::ATTR_ERRMODE =>\PDO::ERRMODE_EXCEPTION)); // connexion à la BDD, si jamais on change de BDD, nous n'aurons pas besoin de modifier ce code, c'est un code généric, c'est le fichier config.xmlque l'on modifiera
-                    echo '<pre>';print_r($this->db); echo'</pre>';
+                    // echo '<pre>';print_r($this->db); echo'</pre>';
                 }
                 catch(\PDOException $e) // on entre dans le 'catch' en cas de mauvaise connexion
                 {
@@ -50,6 +50,17 @@ class EntityRepository
        $r= $q->fetchAll(\PDO::FETCH_ASSOC);
         return array_splice($r, 1); // permet de retirer le premier champs idEmploye dans le formulaire 
    }
+
+   public function select($id)
+   {
+       // $q = $this->getDb()->querry("SELECT * FROM employe WHERE idEmploye = 7256");
+       $q = $this->getDb()->query("SELECT * FROM " . $this->table . ' WHERE id' . ucfirst($this->table) . "=" . (int) $id);
+       // $this->table : employe
+       // id . ucfirst($this->table) : idEmploye
+       $r = $q->fetch(\PDO::FETCH_ASSOC);
+       return $r;
+   }
+
    public function save()
    {
        $id = isset($_GET['id']) ? $_GET['id'] : 'NULL';
@@ -58,6 +69,11 @@ class EntityRepository
     // $this->table : retourne la table 'employe'
     // id . ucfirst($this->table) : idEmploye
     // ',', array_keys($_POST)) : permet d'extraire chaque indice formulaire afin de les accoler vomme nom de champs 
+   }
+
+   public function delete($id)
+   {   //$q = $this->db->getDb()->query("DELETE FROM employe WHERE  idEmploye = 7256");
+       $q = $this->getDb()->query("DELETE FROM " . $this->table . " WHERE id" . ucfirst($this->table) . '=' . (int) $id);
    }
 }
 
