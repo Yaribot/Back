@@ -14,7 +14,7 @@ spl_autoload_register(array('Autoload', 'className')); // s'execute lorsque l'in
 
 // $a = new Controller\Controller; // au moment de l'instanciation, l'autload s'execute et va chercher dans le dossier 'Controller' le fichier 'controller.php', d'ou l'importance du nommage des dossiers et des fichiers 
 
-// le namespace doit avoir le même nom qu le dossier 
+// le namespace doit avoir le même nom que le dossier 
 
 // EXO : faire le même affichage avec la ligne suivante : 
 $b = new Model\EntityRepository;

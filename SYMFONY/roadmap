@@ -1,0 +1,93 @@
+                            ----------------
+                                SYMFONY  
+                            ----------------
+LTS : Long Time Support
+
+INTRO : Qu'est-ce que SYMFONY
+ETAPE 1 : Installation de SF 3.4
+ETAPE 2 : Les Bundles
+ETAPE 3 : Les routes et les controllers
+ETAPE 4 : Créer la boutique sur SF
+ETAPE 5 : TWIG (moteur de template)
+ETAPE 6 : Les assets
+ETAPE 7 : Entités
+ETAPE 8 : DOCTRINE
+ETAPE 9 : Les formulaires
+ETAPE 10 : Validation des données 
+ETAPE 11 : Association Mapping
+ETAPE 12 : Sécurité et Utilisateurs 
+ETAPE 13 : Installation et boutique sur SF 4.3
+BONUS : Mise en Prod
+BONUS : Formulaire de contact 
+
+-------------------------------------------
+INTRO : Qu'est-ce que SYMFONY
+-------------------------------------------
+
+1/  Quel intérêt d'utiliser un framework
+
+    A. Une organisation optimisée
+    B. Fonctionnalités communes à tous les projets
+    C. Service disponible (Routing, Sécurité, BDD, Moteur de template, Formulaire...)
+    D. Communauté
+
+2/ Choix du framework
+
+    A. Propre Framework (pédagogie)
+    B. Les framework Fullstack (Symfony, Zend, Laravel, Cake)
+    C. Les minis Framework (Silex, Slim, CodeIgniter, Lumen...)
+
+3/ Symfony
+
+    -> Framework Français crée par Sensiolabs
+    -> Versions : 
+        LTS : (Long Time Support)
+            v2.8
+            v3.4 : 2.8 plus souple (moins rigide), avec des fonctionnalités 
+            v4.4 : 3.4 BundleLess, Flex, Encore (Webpack), Maker, PHP 7.1
+
+----------------------------------------
+
+ETAPE 1 : Installation de SF 3.4
+Sommaire : 
+1/ Installer Composer
+2/ Installer SF3.4
+3/ Arborescence des dossiers et fichiers
+4/ Lancement de l'application 
+
+---------------------------------------- 
+
+1/ Installer Composer 
+
+Composer est un outils de dépendance. Il permet de télécharger et de mettre à jour tous les outils (services, composants, dépendances) dont on a besoin. 
+
+    Télécharger : https://getcomposer.org/download/
+    composer-setup.exe 
+
+    -Installer : Suivre les étapes.
+
+
+2/ Installer SF3.4
+
+    - Dans le dossier Symfony
+    - Maj + clic-droit : Ovrir une fenêtre powershell ici 
+
+    <cmd>
+    composer create-project symfony/framework-standard-edition test
+
+    ==> A ce stade un dossier test a été crée. C'est un nouveau projet SF
+
+
+3/ Arborescence des dossiers et fichiers
+
+    - app/    : contient toute la configuration de l'app (BDD, sécurité, routes...)
+    - bin/    : Les éxécutable de l' app (de SF)
+    - src/    : Le dossier dans lequel nous allons coder notre MVC
+    - var/    : Les fichiers écrits par SF au fur et à mesure (cache, logs)
+    - tests/  : Les test unitaires.
+    - web/    : Les repertoire WEB (app.php ou app_dev.php, img/css/js/fonts)
+    - vendor/ : Le coeur de SF (les fichiers codés par les Sensio Labs)
+
+    - composer.json : Contient la liste de toutes les dépendances dont ont a besoin 
+
+4/ Lancement de l'application

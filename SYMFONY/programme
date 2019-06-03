@@ -1,0 +1,29 @@
+PROGRAME :
+
+1/ Révisions PHP OO : 
+
+Visibilité - Autoload - Namespace - Interface -
+
+2/ MVC
+
+SYMFONY : 
+
+LTS : Long Time Support
+
+INTRO : Qu'est-ce que SYMFONY
+ETAPE 1 : Installation de SF 3.4
+ETAPE 2 : Les Bundles
+ETAPE 3 : Les routes et les controllers
+ETAPE 4 : Créer la boutique sur SF
+ETAPE 5 : TWIG (moteur de template)
+ETAPE 6 : Les assets
+ETAPE 7 : Entités
+ETAPE 8 : DOCTRINE
+ETAPE 9 : Les formulaires
+ETAPE 10 : Validation des données 
+ETAPE 11 : Association Mapping
+ETAPE 12 : Sécurité et Utilisateurs 
+ETAPE 13 : Installation et boutique sur SF 4.3
+BONUS : Mise en Prod
+BONUS : Formulaire de contact 
+
