@@ -91,3 +91,222 @@ Composer est un outils de dépendance. Il permet de télécharger et de mettre �
     - composer.json : Contient la liste de toutes les dépendances dont ont a besoin 
 
 4/ Lancement de l'application
+
+    - Méthode 1 : 
+    localhost/Back/SYMFONY/test/web/app.php
+    localhost/Back/SYMFONY/test/web/app_dev.php
+
+    - Méthode 2 :
+    On va dans le dossier test/
+    <cmd>
+    php bin/console server:run 
+
+    localhost:8000
+
+    - Différences entre mode prod et dev :
+    localhost/Back/SYMFONY/test/web/toto
+    localhost:8000/toto
+
+
+
+-------------------------------------------
+ETAPE 2 : Les Bundles
+Sommaire : 
+1/ Le concepte des Bundles
+2/ Création de notre premier Bundle
+-------------------------------------------
+
+
+1/ Le concepte des Bundles
+
+    - Les Bundles sont des briques de notre applications.
+
+    UserBundle :
+        UserController (C)
+        UserModel (M)
+        View : inscription/connexion/profil...
+    
+    Avec la nouvelle version de SF (4), on considère qu'il est préférable de crée un seul bundle (AppBundle).
+
+2/ Création de notre premier Bundle
+
+    On va créer un Bundle : POLES/TestBundle
+
+    <cmd>
+    php bin/console generate:bundle
+
+    -> yes
+    -> POLES/TestBundle
+    -> POLESTestBundle
+    -> src/
+    -> annotation
+
+    => Notre Bundle a été crée, mais il faut l'enregistrer.
+
+    <code>composer.json
+    "psr-4": {
+            "AppBundle\\": "src/AppBundle",
+            "POLES\\": "src/POLES"
+        },
+    
+    - Mise à jour de l'app
+    <cmd>
+    composer update 
+
+    ==> Notre Bundle existe dans src/POLES/TestBundle
+    Il est composé de 4 dossiers :
+    - Controller : les controllers du bundle 
+    - DependencyInjection : Injection de dépendences
+    - Ressources : Vues et Routes (YML) et eventuellement JS
+    - Test : Test liés aux fonctionnalité du Bundle
+
+    ==> A ce stade le bundle est fonctionnel, mais il y a une petite erreur qu'on va corriger;
+
+    - src/POLES/TestBundle/Controller/DefaultController.php 
+
+    <code>
+    return $this->render('POLESTestBundle:Default:index.html.twig');
+    Devient :
+    return $this->render('@POLESTest/Default/index.html.twig');
+
+    ==> A ce stade ma page d'accueil affiche "Hello world"
+
+
+
+
+----------------------------------------
+
+ETAPE 3 : Les routes et les controllers
+Sommaire : 
+1/ La création de routes
+2/ L'objet Request
+3/ L'objet Response
+4/ Redirection 
+5/ Message 
+
+----------------------------------------
+
+1/ La création de routes
+    ("/") -> route simple homepage
+    ("/bonjour/") -> route echo (erreur)
+    ("/bonjour2/") -> route response
+    ("/hello/{prenom}") -> route response + param URL
+    ("/hola/{prenom}") -> route render de vue + param URL
+    ("/hola/{prenom}") -> route render de vue + 2 params URL
+    ("/ciao/{prenom}/{age}") -> route render de vue + 2 params URL
+    ("redirect/") -> route avec redirection (RedirectResponse)
+    ("/redirect2") -> route avec redirection (redirectToRoute())
+    ("/message/") -> route avec redirect et message en session 
+
+
+
+
+
+2/ L'objet Request
+    <code>
+    use Symfony\Component\HttpFoundation\Request;
+
+    Correspond à la partie requete de la requete HttpFoundation
+
+    <ex code>
+    <code>
+    $session = $request->getSession();
+    -> recupère la session ($_SESSION)
+
+    Autres exemples : 
+    <code>
+    $session->set('prenom', 'Yannis');
+    echo $session->get('prenom');
+
+    Autres methodes : 
+    <code>
+    $request->session->set('prenom', 'Yannis');
+
+    Autres utilité de $request : 
+    index.php?argument_url=toto
+    <code>
+    $request->query->get('argument_url');
+
+    $request->request->get('champs_form');
+    $request->cookies->get('cookie');
+    $request->server->get('server');
+
+    /exemple/{prenom}
+    $prenom
+
+    /exemple/?prenom=Yannis
+    $prenom
+
+
+3/ L'objet Response
+    - Correspond à la partie réponse d'une requête HTTp.
+
+    <code>
+    use Symfony\Component\HttpFoundation\Response;
+
+    Toute action (fonction) doit avoir une réponse.
+    <code>
+    return new Response('toto');
+
+    même la fonction render est une réponse.
+
+    <code>
+    return $this->render();
+    return $this->getTemplating()->renderResponse;
+
+
+4/ Redirection
+
+    <code>première méthode : 
+    use Symfony\Component\HttpFoundation\RedirectResponse;
+
+    cf route "/redirect/" et "/redirect2/"
+
+    /!\ A ce stade toutes nos routes doivent avoir un name
+
+    5/ Message 
+
+    <code>
+    $session->getFlashBag()->add();
+
+    -> permet de d'enregistrer des messages qui seront disponible dans d'autres pages (messages de félicitations, ou d'erreur).
+
+    -> app.session : Qui nous permet en Twig de récupérer les infos en session.
+
+    -> app.user : Qui nous permet en Twig de récupérer les infos de l'utilisateur actuellement connecté. 
+
+
+
+-------------------------------------------
+ETAPE 4 : Créer la boutique sur SF
+Sommaire : 
+1/ Creation du projet
+2/ Réorganiser le AppBundle
+3/ Création des premières routes 
+-------------------------------------------
+
+1/ Creation du projet
+
+    - Dans le dossier Symfony
+    <cmd>
+    composer create-project symfony/framework-standard-edition Boutique3
+    cd Boutique3
+    php bin/console server:run
+
+    Test : localhost:8000
+
+2/ Réorganiser le AppBundle
+
+    Localhost/                          -> Produit/index.html.twig
+    localhost/categorie/pull            -> Produit/index.html.twig
+    localhost/produit/12                -> Produit/show.html.twig
+
+Admin Controller :
+
+localhost/admin/produit/list/            -> Admin/list_produit.html.twig
+        -> 'je suis dans la page qui liste les produits'
+
+localhost/admin/produit/add/            -> Admin/form_produit.html.twig
+        -> 'je suis dans le formulaire produit'
+
+
