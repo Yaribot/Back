@@ -46,9 +46,9 @@ INTRO : Qu'est-ce que SYMFONY
             v3.4 : 2.8 plus souple (moins rigide), avec des fonctionnalités 
             v4.4 : 3.4 BundleLess, Flex, Encore (Webpack), Maker, PHP 7.1
 
-----------------------------------------
-
+-------------------------------------------
 ETAPE 1 : Installation de SF 3.4
+-------------------------------------------
 Sommaire : 
 1/ Installer Composer
 2/ Installer SF3.4
@@ -111,6 +111,7 @@ Composer est un outils de dépendance. Il permet de télécharger et de mettre �
 
 -------------------------------------------
 ETAPE 2 : Les Bundles
+-------------------------------------------
 Sommaire : 
 1/ Le concepte des Bundles
 2/ Création de notre premier Bundle
@@ -174,9 +175,9 @@ Sommaire :
 
 
 
-----------------------------------------
-
+-------------------------------------------
 ETAPE 3 : Les routes et les controllers
+-------------------------------------------
 Sommaire : 
 1/ La création de routes
 2/ L'objet Request
@@ -279,6 +280,7 @@ Sommaire :
 
 -------------------------------------------
 ETAPE 4 : Créer la boutique sur SF
+-------------------------------------------
 Sommaire : 
 1/ Creation du projet
 2/ Réorganiser le AppBundle
@@ -297,9 +299,22 @@ Sommaire :
 
 2/ Réorganiser le AppBundle
 
+    -> Création de nos controllers:
+    AdminController
+    MembreController
+    CommandeController
+    ProduitController
+
+    -> Création de nos vues:
+    Admin/ list_produit, form_produit etc...
+    Membre/ connexion, inscription, profil etc...
+    commande/ panier, transport, livraison, paiement etc...
+    Produit/ home, categorie, boutique, fiche_produit etc...
+
     Localhost/                          -> Produit/index.html.twig
     localhost/categorie/pull            -> Produit/index.html.twig
     localhost/produit/12                -> Produit/show.html.twig
+
 
 Admin Controller :
 
@@ -309,4 +324,137 @@ localhost/admin/produit/list/            -> Admin/list_produit.html.twig
 localhost/admin/produit/add/            -> Admin/form_produit.html.twig
         -> 'je suis dans le formulaire produit'
 
+CRUD PRODUIT 
 
+@Route("/admin/produit/", name="admin_produit")
+public function adminProduitAction()
+Admin/list_produit.html.twig'
+
+@Route("/admin/produit/add/", name="admin_add_produit")
+public function adminProduitAddAction()
+Admin/form_produit.html.twig'
+
+@Route("/admin/produit/update/{id}/", name="admin_produit_update")
+public function adminProduitUpdateAction($id)
+Admin/form_produit.html.twig'
+
+@Route("/admin/produit/delete/{id}/", name="admin_produit_delete")
+public function adminProduitDeleteAction($id, Request $request)
+redirectToRoute('admin_produit');
+
+
+3/ Création des premières routes
+
+-> ProduitController : "/", "/produit/{id}/" etc...
+-> AdminController : "/admin/produit/", "admin/membre/" etc...
+
+
+-------------------------------------------
+ETAPE 5 : TWIG (moteur de template)
+-------------------------------------------
+Sommaire : 
+1/ Creation du layout
+2/ L'héritage Twig
+3/ Modification de nos vues 
+4/ Documentation Twig 
+-------------------------------------------
+
+TWIG est le moteur de template de Symfony. Un moteur de template (tpl, smarty, twig, blade...) permet d'afficher du php dans les vues HTML de manière pkus simple.
+
+    exemple : 
+    <?= $membre['prenom'] ?>
+    {{ membre.prenom }}
+
+
+
+1/ Creation du layout
+
+    Chemin : Boutique3/app/Resources/views/layout.html.twig
+
+    Un layout est une structure de page, dans laquelle on peut ajouter des éléments/du contenu.
+    Le concept des layout permet d'avoir plusieurs structures de pages dans notre site (ex: front vs backoffice).
+
+
+2/ L'héritage Twig
+
+    Avec Twig on parle d'héritage. Cela signifie que nos vues héritent (extends) d'un layout, et peuvent contenir de l'HTML à l'intérieur des block disponibles (crées dans le layout).
+
+
+===> De manière générale, il faut voir le fonctionnement de Twig et de la méthode render comme un chargement du contenu de manière "empilée" (analogie de la poupée russe). Render temporise (mémoire tempon) le contenu, et affiche en même temps le layout, la vue et es params. 
+
+
+3/ Modification de nos vues
+
+    <code>
+    {% extends 'layout.html.twig' %}
+    {% block content %}
+    Contenu HTML de la page
+    {% endblock %}
+
+
+    /!\ ATTENTION : Quand on utilise l'héritage Twig, nos vues ne peuvent contenir de l'HTML qu'à l'intérieur des blocks prévus pour.
+
+
+
+4/ Documentation Twig 
+
+    https://twig.symfony.com/doc/2.x/
+
+====> A ce stade notre app permet d'afficher les pages accueil, inscription, connexion, profil, boutique, produit, categorie, gestion membre gestion produit, gestion commande.
+
+====> Par contre nous ne sommes pas encore en mesure d'échanger avec la BDD (ajouter un contenu, et récupérer le contenu). Il faut voir les Entity et Doctrine.
+
+
+
+
+-------------------------------------------
+ETAPE 6 : Les assets
+-------------------------------------------
+
+
+
+
+-------------------------------------------
+ETAPE 7 : Entités
+-------------------------------------------
+Sommaire : 
+1/ Doctrine ORM et le concept des Entité (Entity)
+2/ Créer Entité Produit
+3/ Annotation
+4/ Mettre à jour la BDD 
+3/ Générer les entités en ligne de commande 
+3/ Générer la BDD via les Entités 
+3/ Générer les entités depuis la BDD 
+-------------------------------------------
+
+1/ Doctrine ORM et le concept des Entité (Entity)
+
+    - D'une certaine manière, les entités correspondent à la partie MODEL de notre MVC. C'est la relation avec la BDD, mais en PHP et non en SQL.
+    - Théoriquement, nous n'avons plus besoin du DQL.
+
+    - ORM : Object Relation Mapping
+
+    - Nous allons créer nos entités, sous forme de classes PHP (POPO : Plain Old PHP Object), qui vont permettre à Doctrine de comprendre notre BDD et de la manipuler.
+
+    Par exemple : Pour faire INSERT INTO Produit 
+
+    $produit = new Produit;
+    persist($produit);
+
+    supprimer produit
+    remove($produit);
+
+    Créer un formulaire
+    createForm($produit);
+
+===> Pour que tout cela soit possible il faut expliquer à Doctrine, quelle relation existe entre la BDD et nos Entity. 
+
+
+2/ Créer Entité Produit
+
+    A. Créer le dossier src/AppBundle/Entity/
+    B. Créer le fichier src/AppBundle/Entity/Produit.php
+    C. Créer notre class Produit  et nos propriétés et les Getters et les Setters
+
+
+3/ Annotation
