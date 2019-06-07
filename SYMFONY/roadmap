@@ -410,7 +410,72 @@ TWIG est le moteur de template de Symfony. Un moteur de template (tpl, smarty, t
 -------------------------------------------
 ETAPE 6 : Les assets
 -------------------------------------------
+Sommaire : 
+1/ Modification du fichier composer.json
+2/ Mise à jour de l'app.
+3/ Dossier Web/ (photo, css/ js...)
+4/ Modification des vues
+-------------------------------------------
 
+- Le composant Asset de SF nous permet de gérer les ressources (photo, img, js, fonts, css...) et de les appeler de manière absolue.
+
+1/ Modification du fichier composer.json
+
+    <code> composer.json
+    "require": {
+        "symfony/asset": "^3.4"
+    }
+
+
+2/ Mise à jour de l'app.
+
+    <cmd>
+    composer update 
+    
+
+3/ Dossier Web/ (photo, css/ js...)
+
+    Boutique3/web/
+        photo/ (à récupérer du site en procédural)
+        css/ styles.css(à créer)
+        js/ (à créer)
+
+
+4/ Modification des vues
+
+    href="../../css/styles.css"
+    -> href="{{ asset('css/styles.css') }}"
+
+    href="inscription.php"
+    -> href="{{ path('inscription') }}"
+
+    La fonction asset() de TWIG nous permet de charger une ressource (photo, css, js, fonts...)
+
+    La fonction path() de TWIG nous permet de créer un liens vers une page (route).
+
+
+    // Liens dynamiques : 
+
+    src="../../photo/<?= $pdt['photo'] ?>"
+    src="{{ asset('photo/' ~ pdt.photo) }}"
+
+    href="fiche produit.php?id=<?= $pdt ['id'] ?>"
+    href="{{ path('produit', { 'id': pdt.id }) }}
+    @Route("/produit/{id}", name="produit")
+
+    explication : 
+        preoduit--> nom de la route
+        id--------> paramètre dynamique de la route
+        pdt.id----> Valeur du paramètre dynamique
+
+    href="boutique.php?categorie=<?= $pdt['categorie'] ?>"
+    href="{{ path('categorie', { 'cat': cat.categorie }) }}"
+    @Route("/categorie/{cat}", name="categorie")
+
+     explication : 
+        categorie--------> nom de la route
+        cat--------------> paramètre dynamique de la route
+        cat.categorie----> Valeur du paramètre dynamique
 
 
 
@@ -604,5 +669,80 @@ Sommaire :
 
 5/ Requetes SELECT * FROM .... WHERE .... = ....
 
+    La fonction findBy() va nous permettre de récupérer des données de manière plus ciblée.
+    $repo = $this->getDoctrine()->getRepository(Produit::Class);
+    $produits = $repo->findBy(array('categorie' => $cat));
+    $produits = $repo->findBy(array('taille' => 'l'));
+    $produits = $repo->findBy(array(
+        'categorie' => 'tee-shirt',
+        'taille' => 'l'
+    ));
+
+    SELECT * FROM produit WHERE taille = 'l' AND categorie = 'tee-shirt'
+                        findBy(array('couleur' => 'rouge'))
+    $produit = $repo -> findBy(['couleur' => 'rouge'], ['prix' => 'DESC'], 0, 10);
+    SELECT * FROM produit WHERE couleur = 'rouge' ORDER BY prix DESC LIMIT 0, 10
+
+    $produits = $repo->findOneBy(['taille' => 'l']);
+    SELECT * FROM produit WHERE taille = 'l' LIMIT 0, 1
     
 
+
+6/ Requetes INSERT / UPDATE
+
+    - Avec doctrine on manipule des Objet (Entité)
+
+    -> Enregistrement :
+        - On crée un objet vide 
+        - On hydrate l'objet (normalement via un formulaire)
+        - On persist et on flush
+
+        <code>
+        $produit = new Produit;
+        $produit -> setTitre('desdfsed');
+        $produit -> setReference('ddd');
+        ...
+        $em -> persist($produit)
+        $em -> flush();
+
+    -> Modification :
+
+        - Pour update une entrée, c'est la même chose que pour ADD, à ceci prèes que l'objet n'est pas vide à la base. On doit donc récupérer l'objet à modifier avec la fonction find()
+
+
+
+7/ Requetes DELETE
+
+    - Avec doctrine on manipule des Objet (Entité) donc on va récupérer d'abord l'objet à supprimer avec la fonction find().
+
+    <code>
+    $em -> remove($produit);
+    $em -> flush();
+
+
+
+8/ Create Query et Query Builder
+
+SELECT DISTINC(categorie) FROM produit
+
+B/ Create Query et Query Builder
+
+    Pour effectuer des requête spécifiques, nous avons 2 possibilités :
+
+    - Create Query (SQL)
+    - Query Builder (PHP)
+
+    ==> VOIR ProduitRepository
+
+    /!\ Dans l'objectif de "factoriser" notre code nous créons nos requêtes spécifiques dans le repository, afin de les utiliser de manière simple dans les controller.
+
+    ==> Voir le ProduitController, route "/categorie/" et la fonction getAllCategories() déclarée dans le ProduitRepository
+
+    liens : 
+
+    Query Builder:
+    https://www.doctrine-project.org/projects/doctrine-orm/en/2.6/reference/query-builder.html
+	
+	Create Query : 
+	https://www.doctrine-project.org/projects/doctrine-orm/en/2.6/reference/dql-doctrine-query-language.html
+	
