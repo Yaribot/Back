@@ -6,15 +6,40 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
+use AppBundle\Entity\Membre;
+use AppBundle\Form\MembreType;
+
 class MembreController extends Controller
 {
     /** 
      * @Route("/membre/inscription/", name="inscription")
      */
-    public function InscriptionAction()
+    public function InscriptionAction(Request $request)
     {
-        $params = array();
-        return $this->render('@App/Membre/form_inscription.html.twig');
+        $membre = new Membre;
+
+        $form = $this->createForm(MembreType::class, $membre);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid())
+        {
+
+            $em = $this->getDoctrine()->getManager(); // On récup le manager 
+            $em->persist($membre); // On enregistre dans le systeme l'objet
+            $em->flush();
+
+            $request->getsession()->getFlashBag()->add('success', 'Félicitation ' . $membre->getPrenom() . ', vous êtes bien enregisté !!');
+            return $this->redirectToRoute('inscription');
+
+        }
+
+
+        $params = array(
+            'membreForm' => $form->createView(),
+            'title' => 'INSCRIPTION'
+        );
+        return $this->render('@App/Membre/form_inscription.html.twig', $params);
     }
 
     /** 

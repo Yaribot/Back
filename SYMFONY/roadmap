@@ -746,3 +746,112 @@ B/ Create Query et Query Builder
 	Create Query : 
 	https://www.doctrine-project.org/projects/doctrine-orm/en/2.6/reference/dql-doctrine-query-language.html
 	
+
+
+-------------------------------------------
+ETAPE 9 : Les formulaires
+-------------------------------------------
+Sommaire : 
+1/ Le fonctionnement des formulaires
+2/ Générer les formulaires
+3/ Récupérer les données du formulaire
+4/ Personnaliser un formuylaire avec Boostrap 
+5/ Update un enregistrement
+6/ Validation des données
+7/ Champs file
+-------------------------------------------
+
+
+1/ Le fonctionnement des formulaires
+
+- Des la même façon qu'on ne manipule pas des enregistrements en BDD, mais bien des objets (Entity), chaque formulaire va être lié à une entitée.
+
+- Ainsi un formulaire est lié à un objet...
+
+Inscription ---------> objet Membre
+Ajout de produit ----> objet Produit
+Modif de produit ----> objet Produit
+
+Un formulaire est généré grâce à une classe (Type --> ProduitType)
+Chaque champs d'un formulaire correspond à une classe, service de SF. Cela permet de générer tous les contrôles sur les formulaires.
+
+
+2/ Générer les formulaires
+
+    <cmd>
+    php bin/console generate:doctrine:form AppBundle:Produit
+
+    ===> Cela créer un dossier Form dans notre Bundle, et un fichier ProduitType.php, qui contient la construction du formulaire.
+
+
+
+3/ Récupérer les données du formulaire
+
+    A. Générer le formulaire dans la vue 
+
+    <code>
+    use AppBundle\Form\ProduitType
+    $form->$this->createForm(ProduitType:class, $produit);
+
+
+    B. Afficher le formulaire dans la vue
+
+    - On envoie le formulaire à la vue via les params 
+
+    <code>
+    $params = array('produitForm' => $form->createView())
+
+    - On affiche le formulaire :
+        <code>
+        {{form(produitForm)}}  --> affiche tout le formulaire
+        ---
+        {{form_row(produitForm.reference)}} --> affiche un champs (label, champs, errors)
+        --- 
+        {{form_label(produitForm.reference)}} --> affiche le label   
+        {{form_widget(produitForm.reference)}} --> affiche le champs   
+        {{form_errors(produitForm.reference)}} --> affiche les erreurs
+
+        /!\ Si on affiche les champs un par un, il ne faut pas oublier : 
+             {{form_start(produitForm)}}
+             {{form_end(produitForm)}}
+
+    C. Récupérer les données saisies 
+
+        <code>
+        $form->handleRequest($request);
+        /!\ Cette ligne est importante pour pouvoir récupérer les données en POST !! 
+
+    D. Checker la validité du form et traiter les données (enregistrement)
+
+        <code>
+        if($form-> isSubmitted() && $form->isValid())
+        {
+            // persist
+            // flush
+            // message de validation
+            // redirection
+        }
+
+
+4/ Personnaliser un formuylaire avec Boostrap
+
+    <code>app/Config/config.yml
+    twig:
+    form_themes:
+        - 'bootstrap_4_layout.html.twig' 
+
+
+
+5/ Update un enregistrement
+
+    Pour update un enregistrement avec le systtème des formulaires sur SF, rien de pkus simple. Lorsque'on créer le formulaire dans la route, on précise un objet déjà existant (cf route admin/produit/update/(id)).
+
+    ---> On dit qu'on hydrate le formulaire.
+
+
+
+6/ Validation des données
+
+
+
+7/ Champs file

@@ -4,6 +4,9 @@
 {% block title %}Boutique - Membre{% endblock %}
 
 {% block content %}
-    <h1 class="display-4 text-center">je suis dans le formulaire d'ajout de produit</h1><hr><br>
+
+    <h1 class="display-4 text-center">{{ title }}</h1><hr><br>
+
+    {{ form(produitForm) }}
 
 {% endblock %}
