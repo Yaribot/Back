@@ -12,6 +12,7 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -76,7 +77,9 @@ class ProduitType extends AbstractType
                 'Homme et Femme' => 'mixte'
             )
         ))
-        ->add('photo', TextType::class)
+        ->add('file', FileType::class, array(
+            'required' => false,
+        ))
         ->add('prix', MoneyType::class)
         ->add('stock', IntegerType::class, array(
             'required' => false, 

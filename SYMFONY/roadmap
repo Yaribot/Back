@@ -852,6 +852,77 @@ Chaque champs d'un formulaire correspond à une classe, service de SF. Cela perm
 
 6/ Validation des données
 
+    - De base le formulaire est gnénéré par SF de manière basique. Pour gérer nous-même les contraintes, et la sécurité, cela se passe dans le fichier ProduitType.php, et on utilise 'constraints' pour définir les coontraintes liées au formulaire.
 
+    cf -> ProduitType.php
 
 7/ Champs file
+
+    Pour la gestion des photos il faut : 
+        1/ Enregistrer le nom de la photo dans la BDD
+        2/ Enregistrer la photo (data) sur le serveur.
+
+    ==> CF fonction uploadFile() dans l'entity Produit.
+
+
+    /!\ Attention : Dans notre formulaire d'ajout de produit, il n'est plus necessaire d'avoir le champs photo (TEXT), mais bien un champs file (FILE) qui va récupérer les infos de la photo uploadée.
+
+
+    Pour aller plus loin avec les formulaire et symfony :
+    https://symfony.com/doc/current/reference/forms/types.html
+
+
+-------------------------------------------
+ETAPE 10 : Validation des données (Assert)
+-------------------------------------------
+
+    Pour aller plus loin avec les formulaire et symfony :
+    https://symfony.com/doc/current/validation.html
+
+
+
+-------------------------------------------
+ETAPE 11 : ASSOCIATION Mapping
+-------------------------------------------
+
+
+
+-------------------------------------------
+ETAPE 12 : SECURITE ET UTILISATEURS 
+-------------------------------------------
+Sommaire : 
+1/ Niveau de sécurité
+2/ Fichier de sécurité 
+3/ Création des routes
+4/ Class Membre (extends UserIterface) 
+5/ Layout
+-------------------------------------------
+
+
+
+1/ Niveau de sécurité
+
+    - De base Symfony va considérer un visiteur lambda comme un anonyme.
+
+    - Ensuite on va définir des niveaux de sécurité pour les utilisateurs connecté :
+        - ROLE_USER (user connecté)
+        - ROLE_ADMIN
+        - ROLE_SUPER_ADMIN
+
+    - SF a un système de parfeu : 
+        
+        - On définit les routes que les ROLE  peuvent emprunter.
+        -> Si un user annonym --> homepage = OK 
+        -> Si un user annonym --> profil = pas OK -> connexion -> profil ! 
+        -> Si un user connecté --> profil =  OK  
+        -> Si un user connecté--> admin/profil = pas OK --> page erreur (404) 
+
+        En fonction du validateur et de la ressource demandée on peut paramétrer une réaction.
+
+
+2/ Fichier de sécurité
+
+    <code> app/config/security.yml
+3/ Création des routes
+4/ Class Membre (extends UserIterface) 
+5/ Layout

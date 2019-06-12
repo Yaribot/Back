@@ -7,6 +7,10 @@
 
     <h1 class="display-4 text-center">{{ title }}</h1><hr><br>
 
+    {% if photo is defined %}
+    <img src="{{asset('photo/' ~ photo )}}" height="150"/>
+    {% endif %}
+
     {{ form(produitForm) }}
 
 {% endblock %}

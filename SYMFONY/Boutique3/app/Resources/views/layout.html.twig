@@ -26,43 +26,51 @@
     <div class="collapse navbar-collapse" id="navbarsExample04">
         <ul class="navbar-nav mr-auto">
 
-        <li class="nav-item">
-            <a class="nav-link" href="{{ path('homepage') }}">Boutique</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="{{ path('profil') }}">Profil</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="">Panier</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="">Deconnexion</a>
-        </li>
+            {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+            {# Si le visiteur est connecté (peu importe le niveau de role) #}
+            <li class="nav-item">
+                <a class="nav-link" href="{{ path('homepage') }}">Boutique</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ path('profil') }}">Profil</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="">Panier</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="">Deconnexion</a>
+            </li>
 
-        <li class="nav-item">
-            <a class="nav-link" href="">Boutique</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="{{ path('inscription') }}">Inscription</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="{{ path('connexion') }}">Connexion</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="">Panier</a>
-        </li>
-        </li>
-        	<li class="dropdown">	
-			<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-				Admin
-			</button>
-			<ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-				<li><a class="dropdown-item" href="{{ path('admin_produit') }}"><i class="fas fa-box-open"></i>&nbsp;Gestion Produit</a></li>
-				<li><a class="dropdown-item" href="{{ path('admin_membre') }}"><i class="fas fa-user-friends"></i>&nbsp;Gestion Membre</a></li>
-				<li><a class="dropdown-item" href="{{ path('admin_commande') }}"><i class="fas fa-shopping-cart"></i>&nbsp;Gestion Commande</a></li>
-			</ul>
-		</li> 
-        
+            {% else %}
+
+            <li class="nav-item">
+                <a class="nav-link" href="">Boutique</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ path('inscription') }}">Inscription</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ path('connexion') }}">Connexion</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="">Panier</a>
+            </li>
+            </li>
+
+            {% endif %}
+
+            {% if is_granted('ROLE_ADMIN') %}
+            <li class="dropdown">	
+                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Admin
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <li><a class="dropdown-item" href="{{ path('admin_produit') }}"><i class="fas fa-box-open"></i>&nbsp;Gestion Produit</a></li>
+                    <li><a class="dropdown-item" href="{{ path('admin_membre') }}"><i class="fas fa-user-friends"></i>&nbsp;Gestion Membre</a></li>
+                    <li><a class="dropdown-item" href="{{ path('admin_commande') }}"><i class="fas fa-shopping-cart"></i>&nbsp;Gestion Commande</a></li>
+                </ul>
+            </li> 
+            {% endif %}
        
 
         </ul>
@@ -95,7 +103,7 @@
 <!-- /.row -->
 </section>
 
-    <footer class="bg-dark text-white text-center p-3 fixed-bottom">
+    <footer class="bg-dark text-white text-center p-3">
         &copy; 2019 - GL - Pas touche c'est mon site à moi !!! 
     </footer>
 

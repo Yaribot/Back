@@ -67,6 +67,9 @@ class AdminController extends Controller
 
             $em = $this->getDoctrine()->getManager(); // On récup le manager 
             $em->persist($produit); // On enregistre dans le systeme l'objet
+
+            $produit->uploadPhoto();
+
             $em->flush();
 
             $request->getsession()->getFlashBag()->add('success', 'le produit ' . $produit->getId() . ' a bien été ajouté !');
@@ -107,6 +110,9 @@ class AdminController extends Controller
         {
             // Je l'enregistre : 
             $em->persist($produit);
+
+            $produit->uploadPhoto();
+
             $em->flush();
             
             $request->getSession()->getFlashBag()->add('success', 'Le produit ' . $produit->getTitre() . ' a bien été modifié !');
@@ -117,7 +123,8 @@ class AdminController extends Controller
         $params = array(
             'id' => $id,
             'produitForm' => $form->createView(),
-            'title' => 'MODIFIER LE PRODUIT ' . $produit->getTitre()
+            'title' => 'MODIFIER LE PRODUIT ' . $produit->getTitre(),
+            'photo' => $produit->getPhoto()
         );
         return $this->render('@App/Admin/form_produit.html.twig', $params);
     }
@@ -134,7 +141,8 @@ class AdminController extends Controller
          // Je récupère le produit à supprimer : 
         $produit = $em->find(Produit::class,$id);
 
-        // Je supprime le produit : 
+        // Je supprime le produit 
+        $produit->removePhoto(); 
         $em->remove($produit);
         $em->flush();
         
