@@ -923,6 +923,55 @@ Sommaire :
 2/ Fichier de sécurité
 
     <code> app/config/security.yml
+    On définie plusieurs choses : 
+	- encoders (la manière dont les password seront encodés)
+	- provider (quelle ressource va servir d'utilisateur : MembreEntity, le login: username)
+	- Hierarchie : La pyramide des droits
+	- les routes form_login et logout (voir le point suivant)
+	- Access control : qui a le droit à quoi
+
+
+	/!\ Attention le YAML est très sensible aux indentations et aux espaces. 
+	
+
 3/ Création des routes
+
+	form_login: 
+		login_path: connexion (page de connexion)
+		
+		check_path: connexion_check (Page de checking de login/password, on doit juste la créée, et la mettre dans l'attribut action de notre formulaire de connexion)
+		
+		default_target_path: homepage (La page par défaut sur laquelle on est dirigé une fois connecté. Sinon le parefeu prend le dessus)
+
+	logout:
+		path: deconnexion (La route de deconnexion. Doit exister mais est vide)
+		target: homepage (page de destination, lorsqu'on se déconnecte). 
+
+
 4/ Class Membre (extends UserIterface) 
+
+- A partir de maintenant la classe Membre doit implements l'interface UserInterface
+		
+		
+	--> username (getter/setter)
+	--> password (getter/setter)
+	--> roles (getter/setter) /!\ roles est un array 
+	--> salt (getter/setter)
+	
+	/!\ Attention lors de l'inscription, il faut penser à définir un role_user par défaut. 
+	
+	--> public function eraseCredentials() : fonction obligatoire pour que SF prenne la main. 
+	
+	--> getRoles() et setRoles() au pluriel obligatoirement. 
+
 5/ Layout
+
+	Dans les vues on fait la distinction entre le niveau d'acces des utilisateur avec : 
+		
+	{{ if is_granted('IS_AUTHENTICATED_FULLY') }}  : tout le monde (sauf anonyme)
+	{{ if is_granted('ROLE_USER') }}  : tous les users
+	{{ if is_granted('ROLE_ADMIN') }}  : tous les admin
+	
+		
+		
+===> Le salage (cf salt.php) c'est l'idée de rendre un MDP quasiment inviolable en ajoutant au MDP soit une chaîne de caractère que seul le développeur connait (petit site, petite structure), ou alors une chaîne aléatoire pour chaque user... Ensuite pour la connexion, on récupère le salage, pour reconstituer le MDP complet.

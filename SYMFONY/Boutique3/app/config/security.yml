@@ -4,20 +4,26 @@ security:
 
     encoders:
         Symfony\Component\Security\Core\User\User: plaintext
+        AppBundle\Entity\Membre: 'bcrypt'
 
     # https://symfony.com/doc/current/security.html#b-configuring-how-users-are-loaded
     providers:
-        in_memory:
-            memory: 
-                users: 
-                    Yannis:
-                        password: 123456
-                        roles: 'ROLE_USER'
+    #     in_memory:
+    #         memory: 
+    #             users: 
+    #                 Yannis:
+    #                     password: 123456
+    #                     roles: 'ROLE_USER'
+        
+    #                 admin:
+    #                     password: admin
+    #                     roles: 'ROLE_ADMIN'
 
-                    admin:
-                        password: admin
-                        roles: 'ROLE_ADMIN'
 
+        poles_provider:
+            entity:
+                class: AppBundle:Membre
+                property: username                
     firewalls:
         # disables authentication for assets and the profiler, adapt it according to your needs
         dev:

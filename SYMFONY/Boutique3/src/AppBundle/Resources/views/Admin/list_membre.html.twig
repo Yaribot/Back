@@ -9,6 +9,7 @@
     <table class="table table-dark">
         <thead>
             <tr>
+                <th>ID</th>
                 <th>Nom</th>
                 <th>Prenom</th>
                 <th>Username</th>
@@ -17,34 +18,44 @@
                 <th>Ville</th>
                 <th>Codepostal</th>
                 <th>Email</th>
-                <th>Password</th>
-                <th>Statut</th>
+                <th>Achats</th>
+                
                 <th colspan="3">Action</th>
             </tr>
         </thead>
         <tbody>
-            {% for pdt in membre %}
+            {% for m in membre %}
             <tr>
-                <td>{{ pdt.id }}</td>
-                <td>{{ pdt.nom }}</td>
-                <td>{{ pdt.prenom }}</td>
-                <td>{{ pdt.username }}</td>
-                <td>{{ pdt.civilite }}</td>
-                <td>{{ pdt.adresse }}</td>
-                <td>{{ pdt.codepostal }}</td>
-                <td>{{ pdt.email }}</td>
-                <td>{{ pdt.password }}</td>
-                <td>{{ pdt.statut}}</td>
+                <td>{{ m.id }}</td>
+                <td>{{ m.nom }}</td>
+                <td>{{ m.prenom }}</td>
+                <td>{{ m.username }}</td>
+                <td>{{ m.civilite }}</td>
+                <td>{{ m.adresse }}</td>
+                <td>{{ m.ville }}</td>
+                <td>{{ m.codepostal }}</td>
+                <td>{{ m.email }}</td>
+                <td>
+                    {{ m.commandes | length }} Cde(s)
+                    <ul>
+                        {% for c in m.commandes %}
+                            <li>{{ c.montant | number_format(2, ',', ' ')}}€</li>
+                        {% endfor %}
+                    </ul>
+                </td>
+                
+                
+                
                 
 
-                <td><a href="{{ path('admin_membre', {'id': pdt.id } ) }}" target="_blank" class="text text-light"><i class="fas fa-eye"></i></a></td>
-                <td><a href="{{ path('admin_update_membre', {'id': pdt.id } ) }}" class="text text-warning"><i class="fas fa-edit"></i></a></td>
-                <td><a href="{{ path('admin_delete_membre', {'id': pdt.id } ) }}"  onclick="return confirm('Etes-vous sur de vouloir supprimer ce membre ? ')" class="text text-danger"><i class="fas fa-trash"></i></a></td>
+                <td><a href="{{ path('admin_membre', {'id': m.id } ) }}" target="_blank" class="text text-light"><i class="fas fa-eye"></i></a></td>
+                <td><a href="{{ path('admin_update_membre', {'id': m.id } ) }}" class="text text-warning"><i class="fas fa-edit"></i></a></td>
+                <td><a href="{{ path('admin_delete_membre', {'id': m.id } ) }}"  onclick="return confirm('Etes-vous sur de vouloir supprimer ce membre ? ')" class="text text-danger"><i class="fas fa-trash"></i></a></td>
             </tr>
             {% endfor %}
         </tbody>
     </table>
 
-    {# {{ dump(membre) }} #}
+    {{ dump(membre) }}
 
 {% endblock %}

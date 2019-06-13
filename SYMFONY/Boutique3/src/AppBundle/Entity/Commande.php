@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use AppBundle\Entity\Membre;
 
 /**
  * Commande
@@ -22,11 +23,14 @@ class Commande
     private $id;
 
     /**
-     * @var integer
-     *
-     * @ORM\Column(name="membre_id", type="integer", nullable=false)
+     * Une commande n'a qu'un seul membre
+     * On dit que on est du coté propriétaire.
+     * 
+     * @ORM\ManyToOne(targetEntity="Membre", inversedBy="commandes")
+     * @ORM\JoinColumn(name="membre_id", referencedColumnName="id")
+     *                      Foreign Key                  Primary Key
      */
-    private $membreId;
+    private $membreId; // objet Membre
 
     /**
      * @var integer
@@ -68,7 +72,7 @@ class Commande
      *
      * @return Commande
      */
-    public function setMembreId($membreId)
+    public function setMembreId(Membre $membreId)
     {
         $this->membreId = $membreId;
 

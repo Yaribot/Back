@@ -11,6 +11,7 @@ use AppBundle\Entity\Membre;
 use AppBundle\Entity\Commande;
 use AppBundle\Entity\DetailsCommande;
 
+use AppBundle\Form\MembreType;
 use AppBundle\Form\ProduitType;
 
 class AdminController extends Controller
@@ -183,12 +184,31 @@ class AdminController extends Controller
     }
 
     /** 
-     * @Route("/admin/membre/update/", name="admin_update_membre")
+     * @Route("/admin/membre/update/{id}/", name="admin_update_membre")
      */
-    public function adminUpdateMembreAction($id)
+    public function adminUpdateMembreAction($id, Request $request)
     {
+        $em = $this->getDoctrine()->getManager();
+
+        $membre = $em->find(Membre::class, $id);
+
+        $form = $this->createForm(MembreType::class, $membre, ['statut' => 'admin']);
+        $password = $membre->getPassword();
+
+        $form->handleRequest($request);
+        if($form->isSubmitted() && $form->isValid())
+        {
+            $em->persist($membre);
+            $membre->setPassword($password);
+            $em->flush();
+
+            $request->getSession()->getFlashBag()->add('success', 'Le profil du membre ' . $membre->getPrenom() . ' a bien été mis à jour');
+            return $this->redirectToRoute('admin_membre');
+        }
+
         $params = array(
-            'id' => $id
+            'id' => $id,
+            'membreForm' => $form->createView()
         );
         return $this->render('@App/Admin/form_membre.html.twig', $params);
     }
@@ -214,7 +234,13 @@ class AdminController extends Controller
      */
     public function adminCommandeAction()
     {
-        $params = array();
+
+        $repo = $this->getDoctrine()->getRepository(Commande::class);
+        $commandes = $repo->findAll();
+
+        $params = array(
+            'commandes' => $commandes
+        );
         return $this->render('@App/Admin/list_commande.html.twig', $params);
     }
 

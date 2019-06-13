@@ -38,22 +38,28 @@ class MembreType extends AbstractType
         ->add('ville', TextType::class, array())
         ->add('codepostal', IntegerType::class, array())
         ->add('email', EmailType::class, array())
-        ->add('password',PasswordType::class, array())
-        ->add('statut', ChoiceType::class, array(
-            'choices' => array(
-                
-                'Membre' => '0',
-                'Admin' => '1'
-            )
-        ))
+        
         ->add('Enregistrer', SubmitType::class);
+        if($options['statut'] == 'admin')
+        {
+            $builder
+                ->add('roles');
+        }
+        else
+        {
+            $builder
+            ->add('password',PasswordType::class, array(
+            'required' => false
+            ));
+        }
     }/**
      * {@inheritdoc}
      */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'AppBundle\Entity\Membre'
+            'data_class' => 'AppBundle\Entity\Membre',
+            'statut' => 'user'
         ));
     }
 
