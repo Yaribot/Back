@@ -885,6 +885,29 @@ ETAPE 10 : Validation des données (Assert)
 ETAPE 11 : ASSOCIATION Mapping
 -------------------------------------------
 
+Sommaire : 
+1/ Le concept
+2/ La Documentation de Doctrine
+3/ mise en place de l'association Mapping (OneToMany) pour Membre -> Commande
+-----------------------------
+
+1/ Avec Doctrine, on a pris l'habitude de travailler avec des objets (Entity) correspondant aux enregistrements dans la BDD (Mapping).
+
+L'association Mapping nous permet de travailler avec des objets dans des objets. Exemple : Un membre peut avoir plusieurs commandes, dans ce cas, dans un objet Membre nous avons un array composé d'objets commande. Une commande appartient à UN membre, dans ce cas dans un objet Commande nous avons un objet membre. 
+
+Grâce à ce fonctionnement il est plus nécessaire de faire des requêtes de jointure, lorsqu'on récupère un objet, on récupère tous les objets liés. 
+
+2/ 
+https://www.doctrine-project.org/projects/doctrine-orm/en/2.6/reference/association-mapping.html#association-mapping
+
+
+3/ mise en place de l'association Mapping (OneToMany) pour Membre -> Commande
+	
+		-> Entity Membre
+		-> Entity Commande
+
+		
+		-> Dans la vue list_commande.html.twig, on utilise {{ c.membre.prenom }} pour accéder aux infos du membre qui a passé la commande. 
 
 
 -------------------------------------------
@@ -975,3 +998,104 @@ Sommaire :
 		
 		
 ===> Le salage (cf salt.php) c'est l'idée de rendre un MDP quasiment inviolable en ajoutant au MDP soit une chaîne de caractère que seul le développeur connait (petit site, petite structure), ou alors une chaîne aléatoire pour chaque user... Ensuite pour la connexion, on récupère le salage, pour reconstituer le MDP complet.
+
+
+
+---------------------		
+ETAPE 13 : Symfony 4		
+Sommaire :
+1/ Installation
+2/ L'architecture
+3/ Lancement de l'app
+4/ Le maker
+5/ Flex
+-------------------
+
+
+1/ installation : 
+composer create-project symfony/website-skeleton	
+
+2/ L'architecture
+
+	- app a disparu  ----> config 
+	- src/AppBundle a disparu   ---->  BundleLess sans Bundle mais toujours dans le namespace App\
+	- src/Resources/ View  a disparu  ---> templates
+		
+	Le dossier templates prendra toutes les vues (Produit/ Admin/ Membres/ Bases) ainsi que le layout.html.twig
+	
+	web/ a disparu (app_dev.php, app.php, JS/CSS/Photo) ----> public (index.php, JS/CSS/Photo etc...)
+	
+	.env : Notre config (notamment les infos de connexion à la bdd
+	
+3/ Lancement de l'app
+
+	<cmd>
+	php bin/console server:start
+		ou alors
+	php bin/console server:run
+		
+		
+4/ Le maker : 		
+
+	- Création des Entités : 
+		php bin/console make:entity
+		
+		ou depuis la BDD : 
+		php bin/console doctrine:mapping:import "App\Entity" annotation --path=src/Entity
+
+			
+	- Mise à jours des entités :
+		php bin/console make:Entity --regenerate
+		
+
+	- Créer les controller : 
+		php bin/console make:controller 
+		ProduitController 
+		MembreController 
+		CommandeController
+		BaseController
+		AdminController
+
+	- Créer les CRUD : 
+		- pre-requis : Copier/coller les entités
+		
+		copier le dossier	 boutique3/src/AppBundle/Entity
+		le coller dans le dossier	boutique4/src/
+	
+	
+		<cmd>
+		php bin/console make:crud
+		Membre
+		Commande
+		Produit
+		
+		
+	- Créer l'entité Membre : 
+		<cmd>
+	php bin/console make:user
+	
+	
+		
+Bundle : 
+
+	- FOSUserBundle 
+	- easyAdmin 
+	
+Flex : 
+
+Symfony Flex : la nouvelle façon de développer avec Symfony
+Les versions de Symfony 3.4 et 4.0 viennent tout juste de sortir et avec elles vient une nouvelle façon de développer des applications Symfony. Dîtes adieu à la Standard Edition et bonjour aux tout nouveaux symfony/skeleton, Symfony Flex et les recettes qui vont avec.
+
+Vous avez dit Flex ?
+D’un point de vue technique, Symfony Flex est juste un plugin Composer. Il se branche sur les événements Composer dès lors que vous lancez une commande qui installe, met à jour ou supprime un paquet PHP ou bundle Symfony. Son but ? Automatiser l’installation et la suppression de vos dépendances en fournissant une configuration par défaut sans avoir à aller lire la doc pour trouver quelle configuration écrire, quelles routes charger ou autre tâche rébarbative à effectuer. Et dès Symfony 4.0, Flex sera le moyen par défaut pour développer une application Symfony.
+
+Il paraît qu’un bon exemple vaut mieux qu’un long discours. Alors imaginons que vous ayez une application existante en Symfony 3.3 (parce que vous êtes un dev cool et avez effectué les migrations vers les dernières versions de Symfony au fur et à mesure 💪). Vous voulez y ajouter une API en installant api-platform. Vous allez donc effectuer les tâches suivantes :
+	
+	
+Sources : https://afsy.fr/avent/2017/08-symfony-flex-la-nouvelle-facon-de-developper-avec-symfony
+
+
+WebPack Encore : 
+https://symfony.com/doc/current/frontend.html
+	
+
