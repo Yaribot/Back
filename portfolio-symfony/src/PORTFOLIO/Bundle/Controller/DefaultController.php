@@ -8,10 +8,10 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 class DefaultController extends Controller
 {
     /**
-     * @Route("/")
+     * @Route("/", name="accueil")
      */
     public function indexAction()
     {
-        return $this->render('PORTFOLIOBundle:Default:index.html.twig');
+        return $this->render('@PORTFOLIO/Default/index.html.twig');
     }
 }
