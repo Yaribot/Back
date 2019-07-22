@@ -1,4 +1,11 @@
 
+@font-face {
+    font-family: 'KGHAPPY';
+    src: url('../font/kg-happy/KGHAPPY.ttf') format('truetype'),
+         url('../font/kg-happy/KGHAPPYShadows.ttf') format('truetype'),
+         url('../font/kg-happy/KGHAPPYSolid.ttf') format('truetype');
+}
+
 body{
     background-image: url(../photo/Decktop-bg.jpg);
     width: 100%;
@@ -16,9 +23,25 @@ h2{
     font-family: 'Fredericka the Great', cursive;
 }
 
+.about{
+    background-color: white;
+    box-shadow: -1px -5px 19px 0px rgba(0,0,0,0.37);
+}
+
+.about h3{
+    font-family: 'KGHAPPY';
+    font-size: 3em;
+    text-align: center;
+}
+
+.about ul{
+    margin-bottom: 0;
+}
+
+
 footer {
-  position: fixed;
+  /* position: fixed;
   left: 0;
-  bottom: 0;
+  bottom: 0; */
   width: 100%;
 }

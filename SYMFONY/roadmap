@@ -524,7 +524,7 @@ Sommaire :
 
 3/ Annotation
 
-    - Avec Doctrine ORM, on paramère le mapping via les annotations. 
+    - Avec Doctrine ORM, on paramètre le mapping via les annotations. 
     <code>
     use Doctrine\ORM\ Mapping as ORM
 
