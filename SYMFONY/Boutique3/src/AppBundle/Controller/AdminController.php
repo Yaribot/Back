@@ -43,7 +43,7 @@ class AdminController extends Controller
     {
        
         $produit = new Produit;
-        // On créer un objet produit de l'entit" produit (vide)
+        // On créer un objet produit de l'entité produit (vide)
         //---------------- PLACEHOLDER
         // $produit-> setReference('XXX');
         // $produit-> setCategorie('pull');
